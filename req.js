@@ -1,4 +1,5 @@
 require("dotenv").config();
+const express = require("express");
 const { Client } = require("twitter-api-sdk");
 const rwClient = require("./twitterClient.js");
 const CronJob = require("cron").CronJob;
@@ -10,7 +11,7 @@ const sarcReply = require('./sarcReply.js');
 var ScinceID;
 const client = new Client(process.env.BEARER_TOKEN);process.env.BEARER_TOKEN
 
-
+const app = express();
 
 async function main() {
   ScinceID = await fs.readFileSync('./store.txt', 'utf8');
@@ -109,12 +110,20 @@ const tweet = async (text, repid) => {
   }
 };
 
-const job = new CronJob("30 * * * * *", () => {
-  console.log("cron job starting!");
-  //tweet()
-  main();
+app.post('/some_route',async (req, res) => {
+  await main();
+  return res.send('ok')
+});  
+
+// const job = new CronJob("30 * * * * *", () => {
+//   console.log("cron job starting!");
+//   //tweet()
+//   main();
+// });
+// //
+// console.log("at job");
+// job.start();
+// //main();
+app.listen(5000, () => {
+  console.log("port is live");
 });
-//
-console.log("at job");
-job.start();
-//main();
