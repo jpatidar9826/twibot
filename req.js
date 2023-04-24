@@ -124,6 +124,10 @@ app.post('/some_route',async (req, res) => {
 // console.log("at job");
 // job.start();
 // //main();
-app.listen(5000, () => {
-  console.log("port is live");
+
+const hostname = "0.0.0.0";
+const port = 3000;
+
+app.listen(port, hostname, () => {
+  console.log("Server running at http://$(hostname):$(port)/");
 });
