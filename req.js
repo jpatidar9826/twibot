@@ -70,7 +70,9 @@ const joke = async (id) => {
 const screenshot = async (ssid, id) => {
   var link = "https://twitter.com/AlpheriorKeys/status/".concat(ssid);
   var filepath = id + "example.png";
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: "new" // opt-in to the new headless mode
+  });
   const page = await browser.newPage();
   await page.goto(link, {
     waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
@@ -110,10 +112,7 @@ const tweet = async (text, repid) => {
   }
 };
 
-app.post('/some_route',async (req, res) => {
-  await main();
-  return res.send('ok')
-});  
+ 
 
 // const job = new CronJob("30 * * * * *", () => {
 //   console.log("cron job starting!");
@@ -124,6 +123,11 @@ app.post('/some_route',async (req, res) => {
 // console.log("at job");
 // job.start();
 // //main();
+
+app.post('/some_route',async (req, res) => {
+  await main();
+  return res.send('ok')
+}); 
 
 const hostname = "0.0.0.0";
 const port = 3000;
