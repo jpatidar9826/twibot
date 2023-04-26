@@ -1,26 +1,27 @@
+require("dotenv").config();
 //import twitter-api-v2
 const { TwitterApi } = require("twitter-api-v2");
 
 //fill your API credentials
 const client = new TwitterApi({
-  appKey: "**",
-  appSecret: "**",
-  accessToken: "**",
-  accessSecret: "**",
-  bearerToken:"**",
-});
+  appKey: process.env.APP_KEY,
+  appSecret: process.env.APP_SECRET,
+  accessToken: process.env.ACCESS_TOKEN,
+  accessSecret: process.env.ACCESS_SECRET,
+  bearerToken: process.env.BEARER_TOKEN
+})
 
 //provide read write controls
 const rwClient = client.readWrite;
 
 //create tweet function which post a text only tweet
-const tweet = async () => {
+const textTweet = async () => {
   try {
     //use .tweet() method and pass the text you want to post
     await rwClient.v2.tweet("This tweet has been created using nodejs");
 
     console.log("success");
-  } catch (e) {
+  } catch (error) {
     console.error(e);
   }
 };
@@ -32,7 +33,7 @@ const mediaTweet = async () => {
     //create mediaID 
     const mediaId = await client.v1.uploadMedia(
         //put path of image you wish to post
-      "./1605232393098780672example.png"
+      "./errorImg.jpeg"
     );
     // use tweet() method and pass object with text in text feild and media items in media feild
     await rwClient.v2.tweet({
@@ -46,5 +47,6 @@ const mediaTweet = async () => {
 };
 
 //call any of methods and you are done 
-tweet();
 mediaTweet();
+textTweet();
+
