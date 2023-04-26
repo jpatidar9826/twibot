@@ -70,7 +70,10 @@ const joke = async (id) => {
 const screenshot = async (ssid, id) => {
   var link = "https://twitter.com/AlpheriorKeys/status/".concat(ssid);
   var filepath = id + "example.png";
-  const browser = await chromium.launch();
+  const browser = await chromium.launch().catch((res) => {
+    console.log(res);
+    return;
+  });
   const context = await browser.newContext();
   const page = await context.newPage();
 
